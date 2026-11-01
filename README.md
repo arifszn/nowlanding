@@ -11,20 +11,6 @@ NowLanding tracks movie and series release dates and sends useful alerts through
 - Physical releases follow the same notification flow as digital releases: announcement, one-week reminder, release day, and date changes.
 - Keeps every alert in the web notification feed, even when Telegram is not connected.
 
-## Screenshots
-
-### Landing page
-
-![NowLanding landing page](docs/screenshots/landing-desktop.png)
-
-### Login
-
-![NowLanding login page](docs/screenshots/login-desktop.png)
-
-The login layout also adapts to narrow screens:
-
-![NowLanding mobile login page](docs/screenshots/login-mobile.png)
-
 ## Stack
 
 - Next.js 16 App Router with plain CSS
@@ -98,7 +84,6 @@ components/             Shared UI components
 lib/                    Data access, formatting, TMDB, and Supabase clients
 supabase/migrations/    Database schema, RLS, and schedules
 supabase/functions/     Sync, event detection, Telegram, and shared logic
-docs/screenshots/       README screenshots captured from the running app
 ```
 
 ## Deployment
