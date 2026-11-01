@@ -6,8 +6,9 @@ import { OauthLink } from "@/components/oauth-link";
 
 export const metadata: Metadata = { title: "Settings" };
 
-export default async function Settings() {
+export default async function Settings({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const [profile, link] = await Promise.all([getProfile(), getTelegramLink()]);
+  const { error } = await searchParams;
   if (!profile) {
     // Signed-in session whose account no longer exists (e.g. after a local DB reset).
     return (
@@ -25,6 +26,7 @@ export default async function Settings() {
       <div className="page__head">
         <h1 className="page__title">Settings</h1>
       </div>
+      {error && <p className="notice notice--error" role="alert">{error}</p>}
       <div className="form">
         <fieldset className="fieldset">
           <legend>Telegram</legend>

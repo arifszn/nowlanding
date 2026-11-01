@@ -3,6 +3,7 @@ import { followTitle, unfollowTitle } from "@/app/actions";
 import type { ReleaseEntry } from "@/lib/data";
 import { Poster } from "@/components/poster";
 import { isToday, kindLabel, relativeDay, shortDate, titleHref } from "@/lib/format";
+import { ActionSubmit } from "@/components/action-submit";
 
 /** Releases grouped by day, each day's date as the row head. Today's date uses the accent. */
 /** Pass `followed` (title ids) and `back` (the current path) to show a Follow/Unfollow button on each row. */
@@ -27,6 +28,7 @@ export function ReleaseList({ entries, timezone = "UTC", followed, back }: { ent
                   <div>
                     <Link className="release-item__title" href={titleHref(e.title)}>{e.title.name}</Link>
                     <p className="release-item__kind small">
+                      <span className="media-pill">{e.title.media_type === "tv" ? "Series" : "Movie"}</span>
                       {kindLabel(e)}
                       {e.region ? ` (${e.region})` : ""}
                     </p>
@@ -38,14 +40,14 @@ export function ReleaseList({ entries, timezone = "UTC", followed, back }: { ent
                         <form action={unfollowTitle}>
                           <input type="hidden" name="titleId" value={e.title.id} />
                           <input type="hidden" name="back" value={back ?? "/discover"} />
-                          <button className="linkish small" type="submit">Unfollow</button>
+                          <ActionSubmit className="linkish small" idle="Unfollow" pending="Unfollowing…" />
                         </form>
                       ) : (
                         <form action={followTitle}>
                           <input type="hidden" name="media" value={e.title.media_type} />
                           <input type="hidden" name="tmdbId" value={e.title.tmdb_id} />
                           <input type="hidden" name="back" value={back ?? "/discover"} />
-                          <button className="btn btn--frame btn--xs" type="submit">Follow</button>
+                          <ActionSubmit className="btn btn--frame btn--xs" idle="Follow" pending="Following…" />
                         </form>
                       )
                     )}

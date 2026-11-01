@@ -5,6 +5,7 @@ import { followTitle, unfollowTitle } from "@/app/actions";
 import { getProfile, getTitle, getTrailerKey, getUserId, isFollowing } from "@/lib/data";
 import { Poster } from "@/components/poster";
 import { Trailer } from "@/components/trailer";
+import { ActionSubmit } from "@/components/action-submit";
 import { kindLabel, longDate } from "@/lib/format";
 import type { ReleaseKind } from "@/supabase/functions/_shared/types.ts";
 
@@ -56,13 +57,13 @@ export default async function TitlePage({ params }: { params: Params }) {
               <form action={unfollowTitle}>
                 <input type="hidden" name="titleId" value={t.id} />
                 <input type="hidden" name="back" value={`/title/${media}/${tmdbId}`} />
-                <button className="btn btn--frame" type="submit">Unfollow</button>
+                <ActionSubmit className="btn btn--frame" idle="Unfollow" pending="Unfollowing…" />
               </form>
             ) : (
               <form action={followTitle}>
                 <input type="hidden" name="media" value={media} />
                 <input type="hidden" name="tmdbId" value={tmdbId} />
-                <button className="btn" type="submit">Follow</button>
+                <ActionSubmit className="btn" idle="Follow" pending="Following…" />
               </form>
             )}
             {trailerKey && <Trailer videoKey={trailerKey} title={t.name} />}

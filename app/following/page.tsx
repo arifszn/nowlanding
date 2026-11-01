@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { unfollowTitle } from "@/app/actions";
+import { ActionSubmit } from "@/components/action-submit";
 import { getFollowing } from "@/lib/data";
 import { Poster } from "@/components/poster";
 import { kindLabel, longDate, titleHref } from "@/lib/format";
@@ -38,7 +39,7 @@ export default async function Following() {
                 <td style={{ textAlign: "right" }}>
                   <form action={unfollowTitle}>
                     <input type="hidden" name="titleId" value={t.id ?? ""} />
-                    <button className="linkish small" type="submit">Unfollow<span className="visually-hidden"> {t.name}</span></button>
+                  <ActionSubmit className="linkish small" idle={<>Unfollow<span className="visually-hidden"> {t.name}</span></>} pending="Unfollowing…" />
                   </form>
                 </td>
               </tr>
