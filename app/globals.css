@@ -48,6 +48,17 @@ main { flex: 1; }
 .page__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); flex-wrap: wrap; padding-bottom: var(--space-lg); }
 .page__title { font-size: var(--text-3xl); }
 
+/* Discover */
+.discover-head { display: flex; align-items: end; justify-content: space-between; gap: var(--space-xl); padding-block: var(--space-md) var(--space-xl); }
+.discover-head h1 { font-size: clamp(2rem, 4vw, 3.25rem); max-width: 15ch; }
+.discover-head__lead { margin-top: var(--space-sm); color: var(--color-ink-2); max-width: 42ch; }
+.eyebrow { margin-bottom: var(--space-xs); color: var(--color-muted); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; }
+.view-switch { display: flex; flex: none; padding: 4px; border: 1px solid var(--color-rule-strong); border-radius: 999px; background: var(--color-paper-2); }
+.view-switch a { padding: 8px 14px; border-radius: 999px; color: var(--color-muted); font-size: var(--text-sm); text-decoration: none; }
+.view-switch a:hover { color: var(--color-ink); }
+.view-switch a[aria-current="page"] { background: var(--color-ink); color: var(--color-paper); }
+@media (max-width: 40rem) { .discover-head { align-items: start; flex-direction: column; gap: var(--space-lg); } .view-switch { width: 100%; } .view-switch a { flex: 1; text-align: center; } }
+
 /* Posters */
 .poster { position: relative; width: var(--poster-w, 92px); aspect-ratio: 2 / 3; flex: none; background: var(--color-paper-2); border-radius: var(--radius-sm); overflow: hidden; }
 .poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
