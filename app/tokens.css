@@ -1,0 +1,32 @@
+:root {
+  color-scheme: light dark;
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px;
+  --text-xs: 0.8125rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem; --text-3xl: 2.25rem;
+  --text-display: clamp(2.5rem, 4vw + 1rem, 4rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms; --dur-short: 220ms;
+  --container: 1200px; --gutter: 48px; --gap-columns: 32px;
+
+  /* Monochrome: the accent is ink */
+  --color-paper: #ffffff; --color-paper-2: #f4f4f5; --color-paper-3: #e4e4e7;
+  --color-ink: #18181b; --color-ink-2: #3f3f46; --color-muted: #63636b;
+  --color-rule: #e4e4e7; --color-rule-strong: #d4d4d8;
+  --color-accent: #18181b; --color-accent-hover: #3f3f46; --color-accent-ink: #ffffff; --color-accent-soft: #f4f4f5;
+  --color-focus: #18181b; --color-error: #b91c1c; --color-success: #15803d;
+
+  /* System fonts */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --radius-sm: 4px; --radius-md: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #0f0f11; --color-paper-2: #1a1a1d; --color-paper-3: #27272a;
+    --color-ink: #f4f4f5; --color-ink-2: #d4d4d8; --color-muted: #a1a1aa;
+    --color-rule: #27272a; --color-rule-strong: #3f3f46;
+    --color-accent: #f4f4f5; --color-accent-hover: #d4d4d8; --color-accent-ink: #0f0f11; --color-accent-soft: #1a1a1d;
+    --color-focus: #f4f4f5; --color-error: #f87171; --color-success: #4ade80;
+  }
+}
