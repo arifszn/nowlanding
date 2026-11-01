@@ -98,6 +98,16 @@ export async function signOut() {
   redirect("/");
 }
 
+export async function deleteAccount() {
+  const userId = await getUserId();
+  if (!userId) redirect("/login");
+  const { error } = await createAdminClient().auth.admin.deleteUser(userId);
+  if (error) redirect(`/settings?error=${encodeURIComponent("Account could not be deleted. Try again.")}`);
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/");
+}
+
 export async function signIn(formData: FormData) {
   if (!emailPasswordAuthEnabled) redirect("/login?error=email_password_disabled");
   const email = String(formData.get("email"));

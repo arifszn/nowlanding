@@ -39,6 +39,8 @@ export default async function TitlePage({ params }: { params: Params }) {
     return { kind, row: local ?? us };
   });
   const tvRows = detail.dates.filter((d) => d.kind !== "episode" || d.date >= today).slice(-12);
+  const year = t.primary_date?.slice(0, 4);
+  const status = t.status?.replace(/_/g, " ");
 
   return (
     <div className="page container">
@@ -46,9 +48,18 @@ export default async function TitlePage({ params }: { params: Params }) {
         <Poster path={t.poster_path} name={t.name} size="w342" frame priority />
         <div>
           <h1>{t.name}</h1>
-          <p className="title-head__meta muted">
-            {media === "tv" ? "Series" : "Movie"}{t.status ? `, ${t.status.toLowerCase()}` : ""}
-          </p>
+          <div className="title-tags" aria-label="Title details">
+            <span className="title-pill title-pill--accent">{media === "tv" ? "Series" : "Movie"}</span>
+            {status && <span className="title-status">{status}</span>}
+          </div>
+          <div className="title-facts">
+            {year && <span>{year}</span>}
+            {t.runtime ? <span>{media === "tv" ? `${t.runtime} min / episode` : `${t.runtime} min`}</span> : null}
+            {t.vote_average ? <span>TMDB {t.vote_average.toFixed(1)} / 10</span> : null}
+            {media === "tv" && t.number_of_seasons ? <span>{t.number_of_seasons} season{t.number_of_seasons === 1 ? "" : "s"}</span> : null}
+          </div>
+          {t.genres?.length ? <p className="title-genres">Genres: {t.genres.join(" · ")}</p> : null}
+          {t.original_name && t.original_name !== t.name && <p className="title-original muted">Original title: {t.original_name}</p>}
           {t.overview && <p className="title-head__overview">{t.overview}</p>}
           <div className="title-head__actions">
             {!userId ? (

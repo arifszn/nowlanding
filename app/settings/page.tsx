@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { connectTelegram, disconnectTelegram, signOut } from "@/app/actions";
+import { connectTelegram, deleteAccount, disconnectTelegram, signOut } from "@/app/actions";
 import { getProfile, getTelegramLink } from "@/lib/data";
 import { SettingsForm } from "@/components/settings-form";
 import { OauthLink } from "@/components/oauth-link";
+import { DeleteAccountButton } from "@/components/delete-account-button";
 
 export const metadata: Metadata = { title: "Settings" };
 
@@ -48,6 +49,10 @@ export default async function Settings({ searchParams }: { searchParams: Promise
           <legend>Account</legend>
           <OauthLink />
           <form action={signOut}><button className="btn btn--frame btn--small" type="submit">Sign out</button></form>
+          <div className="account-danger">
+            <p className="small muted">Permanently remove your account and all saved data.</p>
+            <form action={deleteAccount}><DeleteAccountButton /></form>
+          </div>
         </fieldset>
       </div>
     </div>

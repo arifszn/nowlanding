@@ -20,6 +20,12 @@ export interface TitleSummary {
   overview?: string | null;
   status?: string | null;
   primary_date?: string | null;
+  original_name?: string | null;
+  genres?: string[];
+  runtime?: number | null;
+  vote_average?: number | null;
+  number_of_seasons?: number | null;
+  number_of_episodes?: number | null;
 }
 
 export interface ReleaseEntry {
@@ -187,24 +193,45 @@ export async function getTitle(media: MediaType, tmdbId: number, region: string)
     const { data: rows } = await supabase.from("release_dates")
       .select("kind, region, season, episode, date, note").eq("title_id", cached.id).order("date");
     const dates = (rows ?? []).filter((r) => r.region === null || r.region === region || r.region === FALLBACK_REGION);
-    if (dates.length || cached.status) return { title: cached as TitleSummary, dates, live: false };
+    if (dates.length || cached.status) {
+      try {
+        const metadata = media === "movie"
+          ? await tmdb.get(`movie/${tmdbId}`).json<{ original_title?: string; original_name?: string; genres?: Array<{ name: string }>; runtime?: number | null; episode_run_time?: number[]; vote_average?: number; number_of_seasons?: number; number_of_episodes?: number }>()
+          : await tmdb.get(`tv/${tmdbId}`).json<{ original_title?: string; original_name?: string; genres?: Array<{ name: string }>; runtime?: number | null; episode_run_time?: number[]; vote_average?: number; number_of_seasons?: number; number_of_episodes?: number }>();
+        return {
+          title: {
+            ...cached as TitleSummary,
+            original_name: media === "movie" ? metadata.original_title : metadata.original_name,
+            genres: metadata.genres?.map((genre) => genre.name) ?? [],
+            runtime: media === "movie" ? metadata.runtime ?? null : metadata.episode_run_time?.[0] ?? null,
+            vote_average: metadata.vote_average ?? null,
+            number_of_seasons: media === "tv" ? metadata.number_of_seasons ?? null : null,
+            number_of_episodes: media === "tv" ? metadata.number_of_episodes ?? null : null,
+          },
+          dates,
+          live: false,
+        };
+      } catch {
+        return { title: cached as TitleSummary, dates, live: false };
+      }
+    }
   }
   try {
     const regions = new Set([region, FALLBACK_REGION]);
     if (media === "movie") {
       const m = await tmdb.get(`movie/${tmdbId}`, { searchParams: { append_to_response: "release_dates" } })
-        .json<{ id: number; title: string; poster_path: string | null; backdrop_path: string | null; overview: string; status: string; release_date: string; release_dates: TmdbMovieReleaseDates }>();
+        .json<{ id: number; title: string; original_title?: string; poster_path: string | null; backdrop_path: string | null; overview: string; status: string; release_date: string; genres?: Array<{ name: string }>; runtime?: number | null; vote_average?: number; release_dates: TmdbMovieReleaseDates }>();
       return {
-        title: { id: cached?.id ?? null, tmdb_id: m.id, media_type: "movie", name: m.title, poster_path: m.poster_path, backdrop_path: m.backdrop_path, overview: m.overview, status: m.status, primary_date: m.release_date || null },
+        title: { id: cached?.id ?? null, tmdb_id: m.id, media_type: "movie", name: m.title, original_name: m.original_title, poster_path: m.poster_path, backdrop_path: m.backdrop_path, overview: m.overview, status: m.status, primary_date: m.release_date || null, genres: m.genres?.map((genre) => genre.name) ?? [], runtime: m.runtime ?? null, vote_average: m.vote_average ?? null },
         dates: mapMovieReleaseDates(m.release_dates, regions).sort((a, b) => a.date.localeCompare(b.date)),
         live: true,
       };
     }
-    const d = await tmdb.get(`tv/${tmdbId}`).json<TmdbTvDetails & { poster_path: string | null; backdrop_path: string | null; overview: string; status: string }>();
+      const d = await tmdb.get(`tv/${tmdbId}`).json<TmdbTvDetails & { original_name?: string; poster_path: string | null; backdrop_path: string | null; overview: string; status: string; genres?: Array<{ name: string }>; episode_run_time?: number[]; vote_average?: number; number_of_seasons?: number; number_of_episodes?: number }>();
     const today = new Date().toISOString().slice(0, 10);
     const seasons = await Promise.all(seasonsToFetch(d, today).slice(0, 2).map((n) => tmdb.get(`tv/${tmdbId}/season/${n}`).json<TmdbSeasonDetails>()));
     return {
-      title: { id: cached?.id ?? null, tmdb_id: d.id, media_type: "tv", name: d.name, poster_path: d.poster_path, backdrop_path: d.backdrop_path, overview: d.overview, status: d.status, primary_date: d.first_air_date },
+        title: { id: cached?.id ?? null, tmdb_id: d.id, media_type: "tv", name: d.name, original_name: d.original_name, poster_path: d.poster_path, backdrop_path: d.backdrop_path, overview: d.overview, status: d.status, primary_date: d.first_air_date, genres: d.genres?.map((genre) => genre.name) ?? [], runtime: d.episode_run_time?.[0] ?? null, vote_average: d.vote_average ?? null, number_of_seasons: d.number_of_seasons ?? null, number_of_episodes: d.number_of_episodes ?? null },
       dates: mapTvDates(d, seasons).sort((a, b) => a.date.localeCompare(b.date)),
       live: true,
     };
