@@ -97,18 +97,24 @@ export async function signOut() {
   redirect("/");
 }
 
-/** Local development only: email + password sign-in (Telegram OIDC needs a hosted Auth). */
-export async function devSignIn(formData: FormData) {
-  if (process.env.NODE_ENV === "production") redirect("/login");
+export async function signIn(formData: FormData) {
   const email = String(formData.get("email"));
   const password = String(formData.get("password"));
   const next = String(formData.get("next") || "/discover");
   const supabase = await createClient();
-  let { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) {
-    ({ error } = await supabase.auth.signUp({ email, password }));
-  }
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) redirect(`/login?error=${encodeURIComponent(error.message)}`);
+  redirect(safeNext(next, "/discover"));
+}
+
+export async function signUp(formData: FormData) {
+  const email = String(formData.get("email"));
+  const password = String(formData.get("password"));
+  const next = String(formData.get("next") || "/discover");
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signUp({ email, password });
+  if (error) redirect(`/login?error=${encodeURIComponent(error.message)}&mode=register`);
+  if (!data.session) redirect(`/login?error=${encodeURIComponent("Check your email to confirm your account, then sign in.")}`);
   redirect(safeNext(next, "/discover"));
 }
 

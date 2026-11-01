@@ -1,6 +1,6 @@
 # NowLanding
 
-Release-day alerts on Telegram for movies and series.
+Release-day alerts for movies and series, on Telegram or in the web app.
 
 NowLanding messages you when:
 
@@ -14,7 +14,7 @@ You get automatic alerts for popular titles and can follow specific titles. Movi
 - Next.js 16 (App Router) on Vercel, plain CSS
 - Supabase: Postgres, Auth, Edge Functions (Deno), pg_cron
 - TMDB as the only data source
-- Telegram as the only login and the only alert channel (the sender sits behind a `Channel` interface, so others can be added)
+- Email/password login; Telegram connected optionally for alerts (the sender sits behind a `Channel` interface, so other channels can be added)
 
 ## How it works
 
@@ -74,7 +74,7 @@ Start the app:
 pnpm dev   # http://localhost:3001
 ```
 
-The local Auth server does not support Telegram OIDC, so `/login` shows an email/password sign-in in development (hidden when `NODE_ENV=production`). Telegram login only works on a hosted Supabase project.
+The local Auth server auto-confirms sign-ups (no email is sent); a hosted project sends a confirmation email.
 
 ### Load data
 
@@ -102,9 +102,8 @@ pnpm lint
 1. Create a Supabase project and push the schema: `supabase link` then `supabase db push`.
 2. Deploy the functions: `supabase functions deploy`, and set the secrets from `supabase/functions/.env`.
 3. Store `project_url` and `secret_key` in Supabase Vault. The cron jobs read them to call the functions.
-4. Configure Telegram login as a custom OIDC provider (`custom:telegram`, issuer `https://oauth.telegram.org`, `email_optional: true`). Add your site origin and the Supabase callback URL in BotFather under Login Widget.
-5. Set the bot webhook to the `telegram-webhook` function with a `secret_token` equal to `TELEGRAM_WEBHOOK_SECRET`.
-6. Import the repo in Vercel and set the variables from `.env.example` in the project settings (use the hosted Supabase URL and keys). Vercel then deploys every push to `main`. `vercel.json` has a daily cron that calls `/api/keepalive` (checks `Authorization: Bearer $CRON_SECRET`) so a free Supabase project does not pause after 7 days of inactivity.
+4. Set the bot webhook to the `telegram-webhook` function with a `secret_token` equal to `TELEGRAM_WEBHOOK_SECRET`.
+5. Import the repo in Vercel and set the variables from `.env.example` in the project settings (use the hosted Supabase URL and keys). Vercel then deploys every push to `main`. `vercel.json` has a daily cron that calls `/api/keepalive` (checks `Authorization: Bearer $CRON_SECRET`) so a free Supabase project does not pause after 7 days of inactivity.
 
 ## Project layout
 

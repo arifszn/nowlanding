@@ -168,4 +168,7 @@ main { flex: 1; }
 @media (max-width: 48rem) { .week { grid-template-columns: minmax(0, 1fr); } }
 
 .login { max-width: 520px; display: grid; gap: var(--space-lg); }
+.oauth { display: grid; gap: var(--space-sm); }
+.login__divider { display: flex; align-items: center; gap: var(--space-md); color: var(--color-muted); }
+.login__divider::before, .login__divider::after { content: ""; flex: 1; height: 1px; background: var(--color-rule-strong); }
 .release-day:first-child { border-top: 0; padding-top: var(--space-sm); }

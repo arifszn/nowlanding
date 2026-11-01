@@ -23,12 +23,12 @@ export default async function Home() {
         <div className="hero__grid">
           <div>
             <h1 id="hero-title" className="hero__head">Know the day it lands</h1>
-            <p className="hero__lead">Theaters, streaming, Blu-ray and new episodes, sent to your Telegram.</p>
+            <p className="hero__lead">Theaters, streaming, Blu-ray and new episodes. Alerts on Telegram or in the app.</p>
             <div className="hero__actions">
               {userId ? (
                 <Link className="btn" href="/upcoming">Open my upcoming</Link>
               ) : (
-                <Link className="btn" href="/login">Sign in with Telegram</Link>
+                <Link className="btn" href="/login">Get started</Link>
               )}
               <Link className="btn btn--frame" href="/discover">See what is coming</Link>
             </div>

@@ -7,7 +7,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: { default: "NowLanding", template: "%s | NowLanding" },
-  description: "Release-day alerts on Telegram for movies, series, digital and Blu-ray.",
+  description: "Release-day alerts for movies and series, on Telegram or in the app.",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
