@@ -155,6 +155,8 @@ main { flex: 1; }
 .login__divider::before, .login__divider::after { content: ""; flex: 1; height: 1px; background: var(--color-rule-strong); }
 .oauth { display: grid; gap: var(--space-sm); }
 .oauth .btn { width: 100%; justify-content: flex-start; gap: var(--space-xs); }
+.oauth--inline { display: flex; flex-wrap: wrap; }
+.oauth--inline .btn { width: auto; }
 .oauth .icon { display: inline-grid; place-items: center; width: 20px; height: 20px; flex: none; font: 600 var(--text-md)/1 var(--font-body); text-align: center; }
 .site-footer { padding-block: var(--space-2xl) var(--space-xl); border-top: 1px solid var(--color-rule); }
 .site-footer__inner { display: flex; justify-content: space-between; gap: var(--space-xl); align-items: end; }

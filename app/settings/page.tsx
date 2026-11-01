@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { connectTelegram, disconnectTelegram, signOut } from "@/app/actions";
 import { getProfile, getTelegramLink } from "@/lib/data";
 import { SettingsForm } from "@/components/settings-form";
+import { OauthLink } from "@/components/oauth-link";
 
 export const metadata: Metadata = { title: "Settings" };
 
@@ -43,6 +44,7 @@ export default async function Settings() {
         <SettingsForm profile={profile} />
         <fieldset className="fieldset">
           <legend>Account</legend>
+          <OauthLink />
           <form action={signOut}><button className="btn btn--frame btn--small" type="submit">Sign out</button></form>
         </fieldset>
       </div>

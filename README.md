@@ -36,6 +36,8 @@ cp supabase/functions/.env.example supabase/functions/.env
 
 Fill in the environment files with the values printed by `supabase status` and your TMDB and Telegram credentials.
 
+Set `DISABLE_EMAIL_PASSWORD_AUTH=true` to hide email/password sign-in and registration and use OAuth providers only.
+
 Start the web app:
 
 ```bash

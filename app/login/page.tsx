@@ -5,6 +5,7 @@ import { signIn, signUp } from "@/app/actions";
 import { getUserId } from "@/lib/data";
 import { safeNext } from "@/lib/safe-next";
 import { OauthSignIn } from "@/components/oauth-sign-in";
+import { emailPasswordAuthEnabled } from "@/lib/auth-config";
 
 export const metadata: Metadata = { title: "Sign in" };
 
@@ -12,7 +13,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
   const { next: nextParam = "/upcoming", error, mode } = await searchParams;
   const next = safeNext(nextParam, "/upcoming");
   if (await getUserId()) redirect(next);
-  const register = mode === "register";
+  const register = emailPasswordAuthEnabled && mode === "register";
 
   return (
     <div className="page container login-page">
@@ -35,20 +36,24 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
               <h2 id="login-title">{register ? "Create your list" : "Welcome back"}</h2>
               <p className="login-panel__lead">{register ? "Save titles and get notified when dates change." : "Pick up where you left off."}</p>
             </div>
-            {error && <p className="notice notice--error" role="alert">{error === "auth" ? "Sign-in did not finish. Try again." : error}</p>}
+            {error && <p className="notice notice--error" role="alert">
+              {error === "auth" ? "Sign-in did not finish. Try again." : error === "email_password_disabled" ? "Email and password sign-in is disabled. Use an OAuth provider." : error}
+            </p>}
             <OauthSignIn next={next} />
-            <div className="login__divider"><span>or use email</span></div>
-            <form action={register ? signUp : signIn} className="fieldset">
-              <input type="hidden" name="next" value={next} />
-              <div className="field"><label htmlFor="email">Email address</label><input id="email" name="email" type="email" autoComplete="email" required /></div>
-              <div className="field"><label htmlFor="password">Password</label><input id="password" name="password" type="password" minLength={6} autoComplete={register ? "new-password" : "current-password"} required /></div>
-              <button className="btn" type="submit">{register ? "Create account" : "Sign in"}</button>
-            </form>
-            <p className="small muted login-panel__switch">
-              {register
-                ? <>Already have an account? <Link href={`/login?next=${encodeURIComponent(next)}`}>Sign in</Link></>
-                : <>New here? <Link href={`/login?mode=register&next=${encodeURIComponent(next)}`}>Create an account</Link></>}
-            </p>
+            {emailPasswordAuthEnabled && <>
+              <div className="login__divider"><span>or use email</span></div>
+              <form action={register ? signUp : signIn} className="fieldset">
+                <input type="hidden" name="next" value={next} />
+                <div className="field"><label htmlFor="email">Email address</label><input id="email" name="email" type="email" autoComplete="email" required /></div>
+                <div className="field"><label htmlFor="password">Password</label><input id="password" name="password" type="password" minLength={6} autoComplete={register ? "new-password" : "current-password"} required /></div>
+                <button className="btn" type="submit">{register ? "Create account" : "Sign in"}</button>
+              </form>
+              <p className="small muted login-panel__switch">
+                {register
+                  ? <>Already have an account? <Link href={`/login?next=${encodeURIComponent(next)}`}>Sign in</Link></>
+                  : <>New here? <Link href={`/login?mode=register&next=${encodeURIComponent(next)}`}>Create an account</Link></>}
+              </p>
+            </>}
           </div>
         </section>
       </div>

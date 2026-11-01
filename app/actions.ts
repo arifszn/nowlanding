@@ -8,6 +8,7 @@ import { ensureTitle, getUserId, requestSync } from "@/lib/data";
 import { createLinkUrl } from "@/lib/telegram-link";
 import { safeNext } from "@/lib/safe-next";
 import { isValidTimezone } from "@/supabase/functions/_shared/dates.ts";
+import { emailPasswordAuthEnabled } from "@/lib/auth-config";
 
 async function requireUser(next = "/discover") {
   const userId = await getUserId();
@@ -98,6 +99,7 @@ export async function signOut() {
 }
 
 export async function signIn(formData: FormData) {
+  if (!emailPasswordAuthEnabled) redirect("/login?error=email_password_disabled");
   const email = String(formData.get("email"));
   const password = String(formData.get("password"));
   const next = String(formData.get("next") || "/discover");
@@ -108,6 +110,7 @@ export async function signIn(formData: FormData) {
 }
 
 export async function signUp(formData: FormData) {
+  if (!emailPasswordAuthEnabled) redirect("/login?error=email_password_disabled&mode=register");
   const email = String(formData.get("email"));
   const password = String(formData.get("password"));
   const next = String(formData.get("next") || "/discover");
