@@ -65,9 +65,8 @@ cp supabase/functions/.env.example supabase/functions/.env
 | `.env.local` | `SUPABASE_SECRET_KEY` | secret key from `supabase status` (server only) |
 | `.env.local` | `TMDB_READ_TOKEN` | your TMDB token |
 | `.env.local` | `TELEGRAM_BOT_USERNAME` | your bot's username |
-| `.env.local` | `NEXT_PUBLIC_APP_URL` | `http://localhost:3001` |
 | `.env.local` | `CRON_SECRET` | any random string |
-| `supabase/functions/.env` | `TMDB_READ_TOKEN`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `TELEGRAM_BOT_USERNAME`, `APP_URL` | your values |
+| `supabase/functions/.env` | `TMDB_READ_TOKEN`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `APP_URL` (your deployed site URL in production) | your values |
 
 Start the app:
 
@@ -105,7 +104,7 @@ pnpm lint
 3. Store `project_url` and `secret_key` in Supabase Vault. The cron jobs read them to call the functions.
 4. Configure Telegram login as a custom OIDC provider (`custom:telegram`, issuer `https://oauth.telegram.org`, `email_optional: true`). Add your site origin and the Supabase callback URL in BotFather under Login Widget.
 5. Set the bot webhook to the `telegram-webhook` function with a `secret_token` equal to `TELEGRAM_WEBHOOK_SECRET`.
-6. Deploy the Next.js app to Vercel with the `.env.local` variables. `vercel.json` has a daily cron that calls `/api/keepalive` (checks `Authorization: Bearer $CRON_SECRET`) so a free Supabase project does not pause after 7 days of inactivity.
+6. Import the repo in Vercel and set the variables from `.env.example` in the project settings (use the hosted Supabase URL and keys). Vercel then deploys every push to `main`. `vercel.json` has a daily cron that calls `/api/keepalive` (checks `Authorization: Bearer $CRON_SECRET`) so a free Supabase project does not pause after 7 days of inactivity.
 
 ## Project layout
 
