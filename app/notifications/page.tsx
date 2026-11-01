@@ -11,7 +11,6 @@ const DELIVERY: Record<string, string> = {
   sent: "Sent to Telegram",
   pending: "Sending to Telegram",
   sending: "Sending to Telegram",
-  skipped: "Web only",
   failed: "Telegram delivery failed",
 };
 
@@ -45,7 +44,7 @@ export default async function Notifications() {
               </div>
               <div className="feed__time">
                 <div>{timeAgo(n.created_at)}</div>
-                <div>{DELIVERY[n.status] ?? n.status}</div>
+                  {n.status !== "skipped" && <div>{DELIVERY[n.status] ?? n.status}</div>}
               </div>
             </li>
           ))}
