@@ -71,17 +71,17 @@ export default async function TitlePage({ params }: { params: Params }) {
         </div>
       </div>
 
-      <section className="section" aria-labelledby="dates-title">
+      <section className="section title-dates" aria-labelledby="dates-title">
         <div className="section__head">
-          <h2 id="dates-title">Dates</h2>
+            <h2 id="dates-title">Release timeline</h2>
         </div>
-        <dl className="particulars" style={{ maxWidth: 760 }}>
+        <dl className="particulars particulars--timeline" style={{ maxWidth: 760 }}>
           {media === "movie"
             ? movieRows.map(({ kind, row }) => (
-              <div className="particulars__row" key={kind}>
+              <div className={`particulars__row${row && row.date < today ? " particulars__row--past" : ""}`} key={kind}>
                 <dt>{kindLabel({ kind, season: null, episode: null })}</dt>
                 <dd>
-                  {row ? `${longDate(row.date)}${row.region && row.region !== region ? ` (${row.region})` : ""}` : (
+                  {row ? <>{longDate(row.date)}{row.region && row.region !== region ? ` (${row.region})` : ""}</> : (
                     <span className="muted">Not announced</span>
                   )}
                 </dd>
@@ -89,9 +89,9 @@ export default async function TitlePage({ params }: { params: Params }) {
             ))
             : tvRows.length
               ? tvRows.map((d) => (
-                <div className="particulars__row" key={`${d.kind}-${d.season}-${d.episode}`}>
-                  <dt>{kindLabel(d)}</dt>
-                  <dd>{longDate(d.date)}</dd>
+                  <div className={`particulars__row${d.date < today ? " particulars__row--past" : ""}`} key={`${d.kind}-${d.season}-${d.episode}`}>
+                    <dt>{kindLabel(d)}</dt>
+                    <dd>{longDate(d.date)}</dd>
                 </div>
               ))
               : (

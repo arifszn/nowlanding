@@ -1,32 +1,20 @@
+/* Hallmark · v2.0.0 · theme: ultraviolet · shape: index · posture: stage · job: find and follow releases · nav: floating rail · footer: colophon · imagery: product sample in hero · surface: lavender */
+/* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 · weakest: E, tightened app states and icon alignment before shipping */
 :root {
-  color-scheme: light dark;
-  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px;
+  color-scheme: light;
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
   --text-xs: 0.8125rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem; --text-3xl: 2.25rem;
-  --text-display: clamp(2.5rem, 4vw + 1rem, 4rem);
+  --text-display: clamp(3.5rem, 6vw, 5.5rem); --text-section: clamp(2.25rem, 4vw, 3.25rem); --text-title: 1.25rem;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-micro: 120ms; --dur-short: 220ms;
-  --container: 1200px; --gutter: 48px; --gap-columns: 32px;
-
-  /* Monochrome: the accent is ink */
-  --color-paper: #ffffff; --color-paper-2: #f4f4f5; --color-paper-3: #e4e4e7;
-  --color-ink: #18181b; --color-ink-2: #3f3f46; --color-muted: #63636b;
-  --color-rule: #e4e4e7; --color-rule-strong: #d4d4d8;
-  --color-accent: #18181b; --color-accent-hover: #3f3f46; --color-accent-ink: #ffffff; --color-accent-soft: #f4f4f5;
-  --color-focus: #18181b; --color-error: #b91c1c; --color-success: #15803d;
-
-  /* System fonts */
-  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-
-  --radius-sm: 4px; --radius-md: 8px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-paper: #0f0f11; --color-paper-2: #1a1a1d; --color-paper-3: #27272a;
-    --color-ink: #f4f4f5; --color-ink-2: #d4d4d8; --color-muted: #a1a1aa;
-    --color-rule: #27272a; --color-rule-strong: #3f3f46;
-    --color-accent: #f4f4f5; --color-accent-hover: #d4d4d8; --color-accent-ink: #0f0f11; --color-accent-soft: #1a1a1d;
-    --color-focus: #f4f4f5; --color-error: #f87171; --color-success: #4ade80;
-  }
+  --container: 1360px; --gutter: 64px; --gap-columns: 32px;
+  --color-paper: oklch(95% 0.02 300); --color-paper-2: oklch(92% 0.03 300); --color-paper-3: oklch(89% 0.035 300);
+  --color-ink: oklch(18% 0.02 300); --color-ink-2: oklch(28% 0.03 300); --color-muted: oklch(46% 0.05 300);
+  --color-rule: oklch(84% 0.04 300); --color-rule-strong: oklch(70% 0.08 295);
+  --color-accent: oklch(50% 0.25 290); --color-accent-deep: oklch(43% 0.22 290); --color-accent-ink: oklch(97% 0.01 300); --color-accent-soft: oklch(86% 0.08 295);
+  --color-focus: oklch(50% 0.25 290); --color-error: oklch(45% 0.18 25); --color-success: oklch(42% 0.14 150);
+  --shadow-card: 0 1px 2px oklch(18% 0.02 300 / 0.06); --color-overlay: oklch(18% 0.02 300 / 0.88);
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif; --font-body: "Onest", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius-sm: 10px; --radius-md: 16px; --radius-pill: 999px;
 }

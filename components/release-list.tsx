@@ -15,7 +15,7 @@ export function ReleaseList({ entries, timezone = "UTC", followed, back }: { ent
       {[...days.entries()].map(([date, list]) => {
         const today = isToday(date, timezone);
         return (
-          <section className="release-day" key={date} aria-label={relativeDay(date, timezone)}>
+          <section className={`release-day${date < new Date().toISOString().slice(0, 10) ? " release-day--past" : ""}`} key={date} aria-label={relativeDay(date, timezone)}>
             <div className="release-day__date">
               <p className={today ? "date date--today" : "date"}>{shortDate(date)}</p>
               <p className="release-day__weekday">{relativeDay(date, timezone)}</p>

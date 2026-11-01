@@ -1,9 +1,11 @@
+/* Hallmark · v2.0.0 · base rules · theme: ultraviolet */
+/* Hallmark · critique: uses the shared scale, explicit focus, and no script-dependent content */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { overflow-x: clip; }
-body { margin: 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-size: var(--text-md); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-size: var(--text-md); line-height: 1.55; -webkit-font-smoothing: antialiased; }
 :focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 a { color: inherit; text-underline-offset: 0.18em; }
-h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; line-height: 1.02; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
 p { margin: 0; text-wrap: pretty; }
 img { max-width: 100%; height: auto; display: block; }
 button, input, select, textarea { font: inherit; color: inherit; }

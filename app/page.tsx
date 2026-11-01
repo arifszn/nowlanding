@@ -6,7 +6,7 @@ import { isToday, kindLabel, relativeDay, shortDate, titleHref } from "@/lib/for
 const SENDS: Array<[string, string]> = [
   ["In theaters", "A week ahead and on the day"],
   ["Digital", "A week ahead and on the day"],
-  ["Blu-ray and DVD", "On release day only"],
+  ["Blu-ray and DVD", "A week ahead and on release day"],
   ["New series", "When announced, a week ahead, on the day"],
   ["New episodes", "On air day, for series you follow"],
 ];
@@ -23,14 +23,14 @@ export default async function Home() {
         <div className="hero__grid">
           <div>
             <h1 id="hero-title" className="hero__head">Know the day it lands</h1>
-            <p className="hero__lead">Theaters, streaming, Blu-ray and new episodes. Alerts on Telegram or in the app.</p>
+            <p className="hero__lead">Track every theatrical, digital, physical and episode release in one quiet timeline.</p>
             <div className="hero__actions">
               {userId ? (
                 <Link className="btn" href="/upcoming">Open my upcoming</Link>
               ) : (
                 <Link className="btn" href="/login">Get started</Link>
               )}
-              <Link className="btn btn--frame" href="/discover">See what is coming</Link>
+            <Link className="btn btn--frame" href="/discover">Browse releases</Link>
             </div>
           </div>
           {next && (
@@ -53,7 +53,7 @@ export default async function Home() {
         <section className="section container" aria-labelledby="week-title">
           <div className="section__head">
             <h2 id="week-title">The next three days</h2>
-            <Link href="/discover">See everything</Link>
+            <Link href="/discover">Open the full timeline</Link>
           </div>
           <div className="week">
             {days.map((date) => (
@@ -75,9 +75,7 @@ export default async function Home() {
       )}
 
       <section className="section container" aria-labelledby="sends-title">
-        <div className="section__head">
-          <h2 id="sends-title">What the bot sends</h2>
-        </div>
+        <div className="section__head"><h2 id="sends-title">Choose your signal</h2></div>
         <dl className="particulars" style={{ maxWidth: 760 }}>
           {SENDS.map(([k, v]) => (
             <div className="particulars__row" key={k}>

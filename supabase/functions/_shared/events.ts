@@ -109,11 +109,7 @@ export function planEvents(input: PlanInput): PlannedNotification[] {
           });
         };
 
-        // Physical (Blu-ray/DVD): release day only.
-        if (row.kind === "physical") {
-          if (d === 0 && user.notify_released && user.notify_physical) emit("released", `${base}:${row.date}`);
-          continue;
-        }
+        if (row.kind === "physical" && !user.notify_physical) continue;
 
         if (row.kind === "episode") {
           if (d === 0 && user.notify_released) emit("released", `${base}:${row.date}`);

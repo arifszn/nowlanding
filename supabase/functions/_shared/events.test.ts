@@ -65,13 +65,13 @@ describe("planEvents", () => {
     expect(nz.map((n) => n.event_type)).toEqual(["released"]);
   });
 
-  it("physical releases notify only on release day", () => {
+  it("physical releases notify in the week ahead and on release day", () => {
     const physical = (date: string, extra: Partial<ReleaseDateRow> = {}) =>
       rd({ title_id: 1, kind: "physical", region: "US", date, first_seen_at: "2026-10-31T00:00:00Z", ...extra });
-    expect(plan([physical("2026-11-05")])).toEqual([]); // newly announced, in reminder window: nothing
+    expect(plan([physical("2026-11-05")]).map((n) => n.event_type)).toEqual(["announced"]);
     expect(plan([physical("2026-11-08", { previous_date: "2026-11-03" })], {
       prior: [priorKey("u1", 1, "announced", "physical:US:-:-")],
-    })).toEqual([]);
+    }).map((n) => n.event_type)).toEqual(["date_changed", "upcoming_reminder"]);
     const day = plan([physical("2026-11-01")]);
     expect(day.map((n) => [n.event_type, n.event_key])).toEqual([["released", "physical:US:-:-:2026-11-01"]]);
   });

@@ -20,7 +20,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body style={{ minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
         <header className="topbar">
           <div className="container topbar__inner">
-            <Link href="/" className="wordmark">NowLanding</Link>
+            <Link href="/" className="wordmark" aria-label="NowLanding home">
+              <img className="wordmark__mark" src="/nowlanding-mark.png" alt="" width="36" height="36" />
+              NowLanding
+            </Link>
             <nav className="nav" aria-label="Main">
               <NavLink href="/discover">Discover</NavLink>
               {userId ? (
@@ -41,6 +44,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </header>
         <main>{children}</main>
         {profile?.timezone === "UTC" && <TimezoneDetect />}
+        <footer className="site-footer">
+          <div className="container site-footer__inner">
+          <div><Link href="/" className="wordmark"><img className="wordmark__mark" src="/nowlanding-mark.png" alt="" width="36" height="36" />NowLanding</Link><p className="small">Release dates, kept in one calm place.</p></div>
+            <nav className="site-footer__links" aria-label="Footer"><Link href="/about">About</Link><Link href="/privacy">Privacy</Link></nav>
+          </div>
+        </footer>
       </body>
     </html>
   );

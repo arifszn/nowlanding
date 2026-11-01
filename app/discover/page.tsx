@@ -43,8 +43,7 @@ export default async function Discover({ searchParams }: { searchParams: Promise
       <LiveSearch initialQuery={query} initialResults={results}>
       <div className="discover-head">
         <div>
-          <p className="eyebrow">Release radar</p>
-          <h1>Discover what to watch next</h1>
+            <h1>Discover what to watch next</h1>
           <p className="discover-head__lead">
             {homeOnly
               ? "Digital releases and new episodes, without the cinema-only dates."
