@@ -103,7 +103,8 @@ pnpm lint
 2. Deploy the functions: `supabase functions deploy`, and set the secrets from `supabase/functions/.env`.
 3. Store `project_url` and `secret_key` in Supabase Vault. The cron jobs read them to call the functions.
 4. Set the bot webhook to the `telegram-webhook` function with a `secret_token` equal to `TELEGRAM_WEBHOOK_SECRET`.
-5. Import the repo in Vercel and set the variables from `.env.example` in the project settings (use the hosted Supabase URL and keys). Vercel then deploys every push to `main`. `vercel.json` has a daily cron that calls `/api/keepalive` (checks `Authorization: Bearer $CRON_SECRET`) so a free Supabase project does not pause after 7 days of inactivity.
+5. Configure auth in the Supabase dashboard (Authentication > Sign In / Providers): the email provider is on by default. For Google and GitHub, create OAuth apps with redirect URI `https://<project-ref>.supabase.co/auth/v1/callback`, enable both providers with the client IDs and secrets, and publish the Google consent screen (it needs a home page and privacy policy URL; this repo serves `/privacy`). Set the Site URL (Authentication > URL Configuration) to your deployed URL.
+6. Import the repo in Vercel and set the variables from `.env.example` in the project settings (use the hosted Supabase URL and keys). Vercel then deploys every push to `main`. `vercel.json` has a daily cron that calls `/api/keepalive` (checks `Authorization: Bearer $CRON_SECRET`) so a free Supabase project does not pause after 7 days of inactivity.
 
 ## Project layout
 
